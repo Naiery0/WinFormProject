@@ -65,8 +65,8 @@
             label11 = new Label();
             CboType_View = new ComboBox();
             TxtDate_View = new TextBox();
-            BtnOk_DateUpdate = new Button();
             BtnUpdate_Date = new Button();
+            BtnOk_DateUpdate = new Button();
             groupBox4 = new GroupBox();
             BtnCancle_AddDate = new Button();
             BtnAdd_Date = new Button();
@@ -108,6 +108,7 @@
             BtnDelete_Mem.TabIndex = 2;
             BtnDelete_Mem.Text = "삭제";
             BtnDelete_Mem.UseVisualStyleBackColor = true;
+            BtnDelete_Mem.Click += BtnDelete_Mem_Click;
             // 
             // BtnAdd_Mem
             // 
@@ -125,9 +126,11 @@
             LsvMember.Name = "LsvMember";
             LsvMember.Size = new Size(307, 306);
             LsvMember.TabIndex = 3;
+            LsvMember.AfterSelect += LsvMember_AfterSelect;
             // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(BtnUpdate_Mem);
             groupBox2.Controls.Add(TxtAbsence);
             groupBox2.Controls.Add(TxtStNum);
             groupBox2.Controls.Add(TxtBirth);
@@ -140,7 +143,6 @@
             groupBox2.Controls.Add(label1);
             groupBox2.Controls.Add(BtnCancle_MemAdd);
             groupBox2.Controls.Add(BtnOk_MemAdd);
-            groupBox2.Controls.Add(BtnUpdate_Mem);
             groupBox2.Location = new Point(12, 393);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(320, 264);
@@ -150,7 +152,6 @@
             // 
             // TxtAbsence
             // 
-            TxtAbsence.Enabled = false;
             TxtAbsence.Location = new Point(93, 206);
             TxtAbsence.Name = "TxtAbsence";
             TxtAbsence.Size = new Size(86, 34);
@@ -159,7 +160,6 @@
             // 
             // TxtStNum
             // 
-            TxtStNum.Enabled = false;
             TxtStNum.Location = new Point(93, 126);
             TxtStNum.Mask = "9999999999";
             TxtStNum.Name = "TxtStNum";
@@ -169,7 +169,6 @@
             // 
             // TxtBirth
             // 
-            TxtBirth.Enabled = false;
             TxtBirth.Location = new Point(93, 166);
             TxtBirth.Mask = "0000년 90월 90일";
             TxtBirth.Name = "TxtBirth";
@@ -180,7 +179,6 @@
             // 
             // TxtPart
             // 
-            TxtPart.Enabled = false;
             TxtPart.Location = new Point(93, 86);
             TxtPart.Name = "TxtPart";
             TxtPart.Size = new Size(199, 34);
@@ -188,7 +186,6 @@
             // 
             // TxtName
             // 
-            TxtName.Enabled = false;
             TxtName.Location = new Point(93, 46);
             TxtName.Name = "TxtName";
             TxtName.Size = new Size(199, 34);
@@ -420,16 +417,6 @@
             TxtDate_View.Size = new Size(179, 34);
             TxtDate_View.TabIndex = 8;
             // 
-            // BtnOk_DateUpdate
-            // 
-            BtnOk_DateUpdate.Location = new Point(239, -1);
-            BtnOk_DateUpdate.Name = "BtnOk_DateUpdate";
-            BtnOk_DateUpdate.Size = new Size(66, 34);
-            BtnOk_DateUpdate.TabIndex = 13;
-            BtnOk_DateUpdate.Text = "저장";
-            BtnOk_DateUpdate.UseVisualStyleBackColor = true;
-            BtnOk_DateUpdate.Visible = false;
-            // 
             // BtnUpdate_Date
             // 
             BtnUpdate_Date.Location = new Point(239, -1);
@@ -439,6 +426,16 @@
             BtnUpdate_Date.Text = "편집";
             BtnUpdate_Date.UseVisualStyleBackColor = true;
             BtnUpdate_Date.Visible = false;
+            // 
+            // BtnOk_DateUpdate
+            // 
+            BtnOk_DateUpdate.Location = new Point(239, -1);
+            BtnOk_DateUpdate.Name = "BtnOk_DateUpdate";
+            BtnOk_DateUpdate.Size = new Size(66, 34);
+            BtnOk_DateUpdate.TabIndex = 13;
+            BtnOk_DateUpdate.Text = "저장";
+            BtnOk_DateUpdate.UseVisualStyleBackColor = true;
+            BtnOk_DateUpdate.Visible = false;
             // 
             // groupBox4
             // 
