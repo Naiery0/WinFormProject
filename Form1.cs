@@ -63,9 +63,13 @@ namespace WinFormProject
         // 멤버 선택 시
         private void LsvMember_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            BtnUpdate_Mem.Visible = true;
-        } //... 선택 해제하면 다시 숨기기 어케함?
-
+            if(LsvMember.SelectedNode.Parent == null) BtnUpdate_Mem.Visible = false;
+            else BtnUpdate_Mem.Visible = true;
+        } 
+        private void LsvMember_Leave(object sender, EventArgs e)
+        {
+            BtnUpdate_Mem.Visible = false;
+        }
 
         // 멤버 버튼/텍스트 컨트롤
         private void MemberEnableControl(bool FT)
@@ -114,10 +118,12 @@ namespace WinFormProject
         // 멤버 정보 편집 함수
         private void UpdateMemberNode(TreeNode target)
         {
-            if (target.Parent != null) { // 사람을 선택했으며
-                if (target.Parent.Text == TxtPart.Text) { // 파트 변경이 없다면
+            if (target.Parent != null)
+            { // 사람을 선택했으며
+                if (target.Parent.Text == TxtPart.Text)
+                { // 파트 변경이 없다면
                     target.Text = TxtName.Text;
-                } 
+                }
             }
             else
             {
@@ -145,13 +151,14 @@ namespace WinFormProject
                 {
                     controlInGroupBox.Enabled = FT;
                 }
+
                 // 그룹박스 안의 그룹박스는 걍 비활성화되서 특별조치
-                if (controlInGroupBox is GroupBox) 
+                if (controlInGroupBox is GroupBox)
                 {
                     controlInGroupBox.Enabled = true;
                     foreach (Control BoxInBox in controlInGroupBox.Controls.OfType<Control>())
                     {
-                        if (BoxInBox is not Label)
+                        if (BoxInBox is not Label && BoxInBox != TxtDate_In && controlInGroupBox != groupBox5)
                         {
                             BoxInBox.Enabled = FT;
                         }
@@ -163,5 +170,6 @@ namespace WinFormProject
                 }
             } // 그룹박스내 라벨 제외한 컨트롤만 제어
         }
+
     }
 }

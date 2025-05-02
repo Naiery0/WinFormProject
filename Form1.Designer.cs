@@ -36,6 +36,7 @@
             BtnAdd_Mem = new Button();
             LsvMember = new TreeView();
             groupBox2 = new GroupBox();
+            BtnUpdate_Mem = new Button();
             TxtAbsence = new NumericUpDown();
             TxtStNum = new MaskedTextBox();
             TxtBirth = new MaskedTextBox();
@@ -48,7 +49,6 @@
             label1 = new Label();
             BtnCancle_MemAdd = new Button();
             BtnOk_MemAdd = new Button();
-            BtnUpdate_Mem = new Button();
             menuStrip1 = new MenuStrip();
             불러오기ToolStripMenuItem = new ToolStripMenuItem();
             저장ToolStripMenuItem = new ToolStripMenuItem();
@@ -127,6 +127,7 @@
             LsvMember.Size = new Size(307, 306);
             LsvMember.TabIndex = 3;
             LsvMember.AfterSelect += LsvMember_AfterSelect;
+            LsvMember.Leave += LsvMember_Leave;
             // 
             // groupBox2
             // 
@@ -149,6 +150,17 @@
             groupBox2.TabIndex = 3;
             groupBox2.TabStop = false;
             groupBox2.Text = "멤버 정보";
+            // 
+            // BtnUpdate_Mem
+            // 
+            BtnUpdate_Mem.Location = new Point(247, -1);
+            BtnUpdate_Mem.Name = "BtnUpdate_Mem";
+            BtnUpdate_Mem.Size = new Size(66, 34);
+            BtnUpdate_Mem.TabIndex = 6;
+            BtnUpdate_Mem.Text = "편집";
+            BtnUpdate_Mem.UseVisualStyleBackColor = true;
+            BtnUpdate_Mem.Visible = false;
+            BtnUpdate_Mem.Click += BtnUpdate_Mem_Click;
             // 
             // TxtAbsence
             // 
@@ -257,17 +269,6 @@
             BtnOk_MemAdd.UseVisualStyleBackColor = true;
             BtnOk_MemAdd.Visible = false;
             BtnOk_MemAdd.Click += BtnOk_MemAdd_Click;
-            // 
-            // BtnUpdate_Mem
-            // 
-            BtnUpdate_Mem.Location = new Point(247, -1);
-            BtnUpdate_Mem.Name = "BtnUpdate_Mem";
-            BtnUpdate_Mem.Size = new Size(66, 34);
-            BtnUpdate_Mem.TabIndex = 6;
-            BtnUpdate_Mem.Text = "편집";
-            BtnUpdate_Mem.UseVisualStyleBackColor = true;
-            BtnUpdate_Mem.Visible = false;
-            BtnUpdate_Mem.Click += BtnUpdate_Mem_Click;
             // 
             // menuStrip1
             // 
