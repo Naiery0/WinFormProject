@@ -127,7 +127,6 @@
             LsvMember.Size = new Size(307, 306);
             LsvMember.TabIndex = 3;
             LsvMember.AfterSelect += LsvMember_AfterSelect;
-            LsvMember.Leave += LsvMember_Leave;
             // 
             // groupBox2
             // 
@@ -159,7 +158,6 @@
             BtnUpdate_Mem.TabIndex = 6;
             BtnUpdate_Mem.Text = "편집";
             BtnUpdate_Mem.UseVisualStyleBackColor = true;
-            BtnUpdate_Mem.Visible = false;
             BtnUpdate_Mem.Click += BtnUpdate_Mem_Click;
             // 
             // TxtAbsence
@@ -332,7 +330,6 @@
             BtnDelete_Date.TabIndex = 12;
             BtnDelete_Date.Text = "삭제";
             BtnDelete_Date.UseVisualStyleBackColor = true;
-            BtnDelete_Date.Visible = false;
             // 
             // groupBox5
             // 
@@ -426,7 +423,6 @@
             BtnUpdate_Date.TabIndex = 7;
             BtnUpdate_Date.Text = "편집";
             BtnUpdate_Date.UseVisualStyleBackColor = true;
-            BtnUpdate_Date.Visible = false;
             // 
             // BtnOk_DateUpdate
             // 
