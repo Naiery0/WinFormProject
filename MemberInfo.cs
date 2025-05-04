@@ -9,11 +9,11 @@ namespace WinFormProject
     internal class MemberInfo
     {
         public MemberInfo(string name, string part, string stnum, string birth, int absence) { 
-            this.Name = name;
-            this.Part = part;
-            this.Birth = birth;
-            this.Absence = absence;
-            this.StNum = stnum;
+            Name = name;
+            Part = part;
+            Birth = birth;
+            Absence = absence;
+            StNum = stnum;
         }
 
         public string Part { get; set; }

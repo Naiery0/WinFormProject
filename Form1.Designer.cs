@@ -62,19 +62,23 @@
             TxtHappening_View = new TextBox();
             label9 = new Label();
             label10 = new Label();
+            label13 = new Label();
             label11 = new Label();
             CboType_View = new ComboBox();
+            TxtDateTitle_View = new TextBox();
             TxtDate_View = new TextBox();
-            BtnUpdate_Date = new Button();
             BtnOk_DateUpdate = new Button();
+            BtnUpdate_Date = new Button();
             groupBox4 = new GroupBox();
             BtnCancle_AddDate = new Button();
             BtnAdd_Date = new Button();
             TxtHappening_In = new TextBox();
             label8 = new Label();
             label7 = new Label();
+            label12 = new Label();
             label5 = new Label();
             CboType_In = new ComboBox();
+            TxtDateTitle_In = new TextBox();
             TxtDate_In = new TextBox();
             LsvDate = new TreeView();
             groupBox1.SuspendLayout();
@@ -307,6 +311,7 @@
             Calendar.Location = new Point(14, 39);
             Calendar.Name = "Calendar";
             Calendar.TabIndex = 5;
+            Calendar.DateChanged += Calendar_DateChanged;
             // 
             // groupBox3
             // 
@@ -330,6 +335,7 @@
             BtnDelete_Date.TabIndex = 12;
             BtnDelete_Date.Text = "삭제";
             BtnDelete_Date.UseVisualStyleBackColor = true;
+            BtnDelete_Date.Click += BtnDelete_Date_Click;
             // 
             // groupBox5
             // 
@@ -337,11 +343,13 @@
             groupBox5.Controls.Add(TxtHappening_View);
             groupBox5.Controls.Add(label9);
             groupBox5.Controls.Add(label10);
+            groupBox5.Controls.Add(label13);
             groupBox5.Controls.Add(label11);
             groupBox5.Controls.Add(CboType_View);
+            groupBox5.Controls.Add(TxtDateTitle_View);
             groupBox5.Controls.Add(TxtDate_View);
-            groupBox5.Controls.Add(BtnUpdate_Date);
             groupBox5.Controls.Add(BtnOk_DateUpdate);
+            groupBox5.Controls.Add(BtnUpdate_Date);
             groupBox5.Location = new Point(324, 307);
             groupBox5.Name = "groupBox5";
             groupBox5.Size = new Size(311, 290);
@@ -362,34 +370,43 @@
             // TxtHappening_View
             // 
             TxtHappening_View.Enabled = false;
-            TxtHappening_View.Location = new Point(6, 155);
+            TxtHappening_View.Location = new Point(6, 195);
             TxtHappening_View.Multiline = true;
             TxtHappening_View.Name = "TxtHappening_View";
-            TxtHappening_View.Size = new Size(299, 128);
+            TxtHappening_View.Size = new Size(299, 88);
             TxtHappening_View.TabIndex = 11;
             // 
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(16, 124);
+            label9.Location = new Point(16, 164);
             label9.Name = "label9";
-            label9.Size = new Size(92, 28);
+            label9.Size = new Size(52, 28);
             label9.TabIndex = 10;
-            label9.Text = "특이사항";
+            label9.Text = "기록";
             // 
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(16, 85);
+            label10.Location = new Point(16, 122);
             label10.Name = "label10";
             label10.Size = new Size(64, 28);
             label10.TabIndex = 10;
             label10.Text = "구분 :";
             // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.Location = new Point(16, 42);
+            label13.Name = "label13";
+            label13.Size = new Size(64, 28);
+            label13.TabIndex = 10;
+            label13.Text = "제목 :";
+            // 
             // label11
             // 
             label11.AutoSize = true;
-            label11.Location = new Point(16, 45);
+            label11.Location = new Point(16, 82);
             label11.Name = "label11";
             label11.Size = new Size(64, 28);
             label11.TabIndex = 10;
@@ -402,27 +419,26 @@
             CboType_View.FormattingEnabled = true;
             CboType_View.ImeMode = ImeMode.NoControl;
             CboType_View.Items.AddRange(new object[] { "연습", "공연", "기타 행사" });
-            CboType_View.Location = new Point(82, 82);
+            CboType_View.Location = new Point(82, 119);
             CboType_View.Name = "CboType_View";
             CboType_View.Size = new Size(179, 36);
             CboType_View.TabIndex = 9;
             // 
+            // TxtDateTitle_View
+            // 
+            TxtDateTitle_View.Enabled = false;
+            TxtDateTitle_View.Location = new Point(82, 39);
+            TxtDateTitle_View.Name = "TxtDateTitle_View";
+            TxtDateTitle_View.Size = new Size(179, 34);
+            TxtDateTitle_View.TabIndex = 8;
+            // 
             // TxtDate_View
             // 
             TxtDate_View.Enabled = false;
-            TxtDate_View.Location = new Point(82, 42);
+            TxtDate_View.Location = new Point(82, 79);
             TxtDate_View.Name = "TxtDate_View";
             TxtDate_View.Size = new Size(179, 34);
             TxtDate_View.TabIndex = 8;
-            // 
-            // BtnUpdate_Date
-            // 
-            BtnUpdate_Date.Location = new Point(239, -1);
-            BtnUpdate_Date.Name = "BtnUpdate_Date";
-            BtnUpdate_Date.Size = new Size(66, 34);
-            BtnUpdate_Date.TabIndex = 7;
-            BtnUpdate_Date.Text = "편집";
-            BtnUpdate_Date.UseVisualStyleBackColor = true;
             // 
             // BtnOk_DateUpdate
             // 
@@ -434,6 +450,15 @@
             BtnOk_DateUpdate.UseVisualStyleBackColor = true;
             BtnOk_DateUpdate.Visible = false;
             // 
+            // BtnUpdate_Date
+            // 
+            BtnUpdate_Date.Location = new Point(239, -1);
+            BtnUpdate_Date.Name = "BtnUpdate_Date";
+            BtnUpdate_Date.Size = new Size(66, 34);
+            BtnUpdate_Date.TabIndex = 7;
+            BtnUpdate_Date.Text = "편집";
+            BtnUpdate_Date.UseVisualStyleBackColor = true;
+            // 
             // groupBox4
             // 
             groupBox4.Controls.Add(BtnCancle_AddDate);
@@ -441,8 +466,10 @@
             groupBox4.Controls.Add(TxtHappening_In);
             groupBox4.Controls.Add(label8);
             groupBox4.Controls.Add(label7);
+            groupBox4.Controls.Add(label12);
             groupBox4.Controls.Add(label5);
             groupBox4.Controls.Add(CboType_In);
+            groupBox4.Controls.Add(TxtDateTitle_In);
             groupBox4.Controls.Add(TxtDate_In);
             groupBox4.Location = new Point(324, 15);
             groupBox4.Name = "groupBox4";
@@ -459,7 +486,7 @@
             BtnCancle_AddDate.TabIndex = 14;
             BtnCancle_AddDate.Text = "취소";
             BtnCancle_AddDate.UseVisualStyleBackColor = true;
-            BtnCancle_AddDate.Visible = false;
+            BtnCancle_AddDate.Click += BtnCancle_AddDate_Click;
             // 
             // BtnAdd_Date
             // 
@@ -469,37 +496,47 @@
             BtnAdd_Date.TabIndex = 7;
             BtnAdd_Date.Text = "추가";
             BtnAdd_Date.UseVisualStyleBackColor = true;
+            BtnAdd_Date.Click += BtnAdd_Date_Click;
             // 
             // TxtHappening_In
             // 
-            TxtHappening_In.Location = new Point(6, 155);
+            TxtHappening_In.Location = new Point(6, 193);
             TxtHappening_In.Multiline = true;
             TxtHappening_In.Name = "TxtHappening_In";
-            TxtHappening_In.Size = new Size(299, 116);
+            TxtHappening_In.Size = new Size(299, 78);
             TxtHappening_In.TabIndex = 11;
             // 
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(16, 124);
+            label8.Location = new Point(16, 162);
             label8.Name = "label8";
-            label8.Size = new Size(92, 28);
+            label8.Size = new Size(52, 28);
             label8.TabIndex = 10;
-            label8.Text = "특이사항";
+            label8.Text = "기록";
             // 
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(16, 85);
+            label7.Location = new Point(16, 121);
             label7.Name = "label7";
             label7.Size = new Size(64, 28);
             label7.TabIndex = 10;
             label7.Text = "구분 :";
             // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.Location = new Point(16, 41);
+            label12.Name = "label12";
+            label12.Size = new Size(64, 28);
+            label12.TabIndex = 10;
+            label12.Text = "제목 :";
+            // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(16, 45);
+            label5.Location = new Point(16, 81);
             label5.Name = "label5";
             label5.Size = new Size(64, 28);
             label5.TabIndex = 10;
@@ -510,15 +547,23 @@
             CboType_In.DropDownStyle = ComboBoxStyle.DropDownList;
             CboType_In.FormattingEnabled = true;
             CboType_In.Items.AddRange(new object[] { "연습", "공연", "기타 행사" });
-            CboType_In.Location = new Point(82, 82);
+            CboType_In.Location = new Point(82, 118);
             CboType_In.Name = "CboType_In";
             CboType_In.Size = new Size(179, 36);
             CboType_In.TabIndex = 9;
+            CboType_In.SelectedIndexChanged += CboType_In_SelectedIndexChanged;
+            // 
+            // TxtDateTitle_In
+            // 
+            TxtDateTitle_In.Location = new Point(82, 38);
+            TxtDateTitle_In.Name = "TxtDateTitle_In";
+            TxtDateTitle_In.Size = new Size(179, 34);
+            TxtDateTitle_In.TabIndex = 8;
             // 
             // TxtDate_In
             // 
             TxtDate_In.Enabled = false;
-            TxtDate_In.Location = new Point(82, 42);
+            TxtDate_In.Location = new Point(82, 78);
             TxtDate_In.Name = "TxtDate_In";
             TxtDate_In.PlaceholderText = "달력에서 선택";
             TxtDate_In.Size = new Size(179, 34);
@@ -615,5 +660,9 @@
         private Button BtnOk_DateUpdate;
         private Button BtnCancle_MemAdd;
         private Button BtnCancle_AddDate;
+        private Label label13;
+        private TextBox TxtDateTitle_View;
+        private Label label12;
+        private TextBox TxtDateTitle_In;
     }
 }

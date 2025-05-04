@@ -1,3 +1,6 @@
+using System.Xml.Linq;
+using System;
+
 namespace WinFormProject
 {
     public partial class Form1 : Form
@@ -6,10 +9,13 @@ namespace WinFormProject
         //List<string> partList = new List<string>();
         List<string> stNumList = new List<string>();
         List<PartInfo> partInfos = new List<PartInfo>();
+        // 파트 인포는 정녕 필요한가?
+        // -> 당장은 필요 없긴 한데 추후 업그레이드를 한다면 필요할지도...? 
         List<MemberInfo> memberInfos = new List<MemberInfo>();
-        List<DayInfo> dayInfos = new List<DayInfo>();
+        List<DateInfo> dateInfos = new List<DateInfo>();
 
-        string tempStNum; // 원활한 편집을 위해...
+
+        //string tempStNum; // 원활한 편집을 위해...
 
         public Form1()
         {
@@ -19,6 +25,10 @@ namespace WinFormProject
         private void Form1_Load(object sender, EventArgs e)
         {
             MemberEnableControl(false);
+
+            Calendar.MaxSelectionCount = 1;
+            CboType_In.SelectedIndex = 0;
+            DeleteDateText();
         }
 
         // 멤버
@@ -27,6 +37,8 @@ namespace WinFormProject
         {
             MemberEnableControl(true);
             EnableControl(groupBox3, false);
+            DeleteMemberInfo();
+
             BtnUpdate_Mem.Visible = false;
             Add_or_Update = true;
         }
@@ -100,11 +112,11 @@ namespace WinFormProject
                     if (stNumList.Contains(stNum))
                     {
                         stNumList.Remove(stNum);
+                        int memberIndex = memberInfos.FindIndex(i => i.StNum.Contains(stNum));
+                        memberInfos.RemoveAt(memberIndex);
                     }
                 }
                 partInfos.RemoveAt(index);
-                // 이러면 멤버 객체가 허공에 남아있긴 한데... 여유되면 없애는 작업 ㄱㄱ
-                // 여유 되면이 아니라 무조건 해야 할 듯
             }
             else // 멤버 삭제
             {
@@ -131,11 +143,11 @@ namespace WinFormProject
                 TxtBirth.Text = memberInfos[index].Birth;
                 TxtStNum.Text = memberInfos[index].StNum;
                 TxtAbsence.Value = memberInfos[index].Absence;
-                tempStNum = TxtStNum.Text;
+                //tempStNum = TxtStNum.Text;
             }
             else
             { // 파트를 선택했을 때
-                tempStNum = string.Empty;
+                //tempStNum = string.Empty;
 
                 TxtPart.Text = target.Text;
             }
@@ -143,7 +155,7 @@ namespace WinFormProject
 
         private void DeleteMemberInfo()
         {
-            tempStNum = string.Empty;
+            //tempStNum = string.Empty;
 
             TxtAbsence.Value = 0;
             TxtBirth.Text = string.Empty;
@@ -164,7 +176,7 @@ namespace WinFormProject
             EnableControl(groupBox2, FT); // 윗줄은 라벨도 투명해져서 만든 함수
 
             LsvMember.Enabled = !FT;
-            
+
             BtnOk_MemAdd.Visible = FT;
             BtnCancle_MemAdd.Visible = FT;
             BtnAdd_Mem.Visible = !FT;
@@ -215,22 +227,6 @@ namespace WinFormProject
         // 멤버 정보 편집 함수
         private void UpdateMemberNode(TreeNode target) // target = 선택한 노드
         {
-            // 해당 인덱스 제거하고 다시 추가하는 방식이 확실할 듯
-            if (target.Parent != null) // 사람을 선택했으면
-            { 
-                //if (target.Parent.Text == TxtPart.Text)
-                //{ // 파트 변경이 없다면
-                //    //target.Text = TxtName.Text;
-
-                //}
-                //else // 파트 변경 시
-                //{
-                //}
-            }
-            else
-            {
-                //target.Text = TxtPart.Text;
-            }
             string tempName = TxtName.Text;
             string tempPart = TxtPart.Text;
             string tempUpdateStNum = TxtStNum.Text;
@@ -238,7 +234,6 @@ namespace WinFormProject
             int tempAbsence = (int)TxtAbsence.Value;
             RemoveMember(target);
             AddMemberNode(tempName, tempPart, tempUpdateStNum, tempBirth, tempAbsence);
-
         }
 
         private void TxtBirth_MouseClick(object sender, MouseEventArgs e)
@@ -266,7 +261,7 @@ namespace WinFormProject
                     controlInGroupBox.Enabled = true;
                     foreach (Control BoxInBox in controlInGroupBox.Controls.OfType<Control>())
                     {
-                        if (BoxInBox is not Label && BoxInBox != TxtDate_In)
+                        if (BoxInBox is not Label && BoxInBox != TxtDate_In && controlInGroupBox != groupBox5)
                         {
                             BoxInBox.Enabled = FT;
                         }
@@ -282,6 +277,65 @@ namespace WinFormProject
         private void LsvMember_AfterSelect(object sender, TreeViewEventArgs e)
         {
             ViewMemberInfo();
+        }
+
+
+        private void BtnAdd_Date_Click(object sender, EventArgs e)
+        {
+            string title = TxtDateTitle_In.Text;
+            string date = TxtDate_In.Text;
+            string type = CboType_In.Text;
+            string happening = TxtHappening_In.Text;
+            int lstLen = LsvDate.Nodes.Count;
+            dateInfos.Add(new DateInfo(title, date, type, happening));
+
+            for (int i = 0; i < lstLen; i++)
+            {
+                if (type == LsvDate.Nodes[i].Text)
+                {
+                    LsvDate.Nodes[i].Nodes.Add(title);
+                    DeleteDateText();
+                    return;
+                }
+            }
+
+        }
+        private void BtnCancle_AddDate_Click(object sender, EventArgs e)
+        {
+            DeleteDateText();
+        }
+        private void DeleteDateText()
+        {
+            TxtDate_In.Text = string.Empty;
+            TxtHappening_In.Text = string.Empty;
+            TxtDateTitle_In.Text = string.Empty;
+            CboType_In.SelectedIndex = 0;
+        }
+
+        private void Calendar_DateChanged(object sender, DateRangeEventArgs e)
+        {
+            TxtDate_In.Text = e.End.ToShortDateString();
+            TxtDateTitle_In.Text = e.End.ToShortDateString() + " " + CboType_In.Text;
+        }
+
+        private void CboType_In_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (Calendar.SelectionEnd.ToShortDateString() != null)
+            {
+                TxtDateTitle_In.Text = Calendar.SelectionEnd.ToShortDateString() + " " + CboType_In.Text;
+            }
+            else TxtDateTitle_In.Text = CboType_In.Text;
+        }
+
+        private void BtnDelete_Date_Click(object sender, EventArgs e)
+        {
+            if (LsvDate.SelectedNode == null || LsvDate.SelectedNode.Parent == null)
+            {
+                MessageBox.Show("삭제할 일정을 선택하세요.", "삭제 오류",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
         }
     }
 }

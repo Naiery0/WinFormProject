@@ -12,8 +12,8 @@ namespace WinFormProject
         public List<string> Member { get; set; }// 파트에 속한 멤버 저장(학번)
         public PartInfo(string part, string stNum)
         {
-            this.Part = part;
-            this.Member = new List<string>();
+            Part = part;
+            Member = new List<string>();
             AddMember(stNum);
         }
 
