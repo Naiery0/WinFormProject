@@ -53,7 +53,6 @@
             불러오기ToolStripMenuItem = new ToolStripMenuItem();
             저장ToolStripMenuItem = new ToolStripMenuItem();
             다른이름으로저장ToolStripMenuItem = new ToolStripMenuItem();
-            만든이ToolStripMenuItem = new ToolStripMenuItem();
             Calendar = new MonthCalendar();
             groupBox3 = new GroupBox();
             BtnDelete_Date = new Button();
@@ -67,8 +66,8 @@
             CboType_View = new ComboBox();
             TxtDateTitle_View = new TextBox();
             TxtDate_View = new TextBox();
-            BtnUpdate_Date = new Button();
             BtnOk_DateUpdate = new Button();
+            BtnUpdate_Date = new Button();
             groupBox4 = new GroupBox();
             BtnCancle_AddDate = new Button();
             BtnAdd_Date = new Button();
@@ -275,7 +274,7 @@
             // menuStrip1
             // 
             menuStrip1.ImageScalingSize = new Size(24, 24);
-            menuStrip1.Items.AddRange(new ToolStripItem[] { 불러오기ToolStripMenuItem, 저장ToolStripMenuItem, 다른이름으로저장ToolStripMenuItem, 만든이ToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { 불러오기ToolStripMenuItem, 저장ToolStripMenuItem, 다른이름으로저장ToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(1002, 33);
@@ -299,12 +298,6 @@
             다른이름으로저장ToolStripMenuItem.Name = "다른이름으로저장ToolStripMenuItem";
             다른이름으로저장ToolStripMenuItem.Size = new Size(184, 29);
             다른이름으로저장ToolStripMenuItem.Text = "다른 이름으로 저장";
-            // 
-            // 만든이ToolStripMenuItem
-            // 
-            만든이ToolStripMenuItem.Name = "만든이ToolStripMenuItem";
-            만든이ToolStripMenuItem.Size = new Size(82, 29);
-            만든이ToolStripMenuItem.Text = "만든이";
             // 
             // Calendar
             // 
@@ -441,16 +434,6 @@
             TxtDate_View.Size = new Size(179, 34);
             TxtDate_View.TabIndex = 8;
             // 
-            // BtnUpdate_Date
-            // 
-            BtnUpdate_Date.Location = new Point(239, -1);
-            BtnUpdate_Date.Name = "BtnUpdate_Date";
-            BtnUpdate_Date.Size = new Size(66, 34);
-            BtnUpdate_Date.TabIndex = 7;
-            BtnUpdate_Date.Text = "편집";
-            BtnUpdate_Date.UseVisualStyleBackColor = true;
-            BtnUpdate_Date.Click += BtnUpdate_Date_Click;
-            // 
             // BtnOk_DateUpdate
             // 
             BtnOk_DateUpdate.Location = new Point(239, -1);
@@ -461,6 +444,16 @@
             BtnOk_DateUpdate.UseVisualStyleBackColor = true;
             BtnOk_DateUpdate.Visible = false;
             BtnOk_DateUpdate.Click += BtnOk_DateUpdate_Click;
+            // 
+            // BtnUpdate_Date
+            // 
+            BtnUpdate_Date.Location = new Point(239, -1);
+            BtnUpdate_Date.Name = "BtnUpdate_Date";
+            BtnUpdate_Date.Size = new Size(66, 34);
+            BtnUpdate_Date.TabIndex = 7;
+            BtnUpdate_Date.Text = "편집";
+            BtnUpdate_Date.UseVisualStyleBackColor = true;
+            BtnUpdate_Date.Click += BtnUpdate_Date_Click;
             // 
             // groupBox4
             // 
@@ -634,7 +627,6 @@
         private ToolStripMenuItem 불러오기ToolStripMenuItem;
         private ToolStripMenuItem 저장ToolStripMenuItem;
         private ToolStripMenuItem 다른이름으로저장ToolStripMenuItem;
-        private ToolStripMenuItem 만든이ToolStripMenuItem;
         private MonthCalendar Calendar;
         private NumericUpDown TxtAbsence;
         private Button BtnDelete_Mem;

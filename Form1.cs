@@ -7,7 +7,6 @@ namespace WinFormProject
     public partial class Form1 : Form
     {
         bool Add_or_Update = true; // true는 Add 
-        //List<string> partList = new List<string>();
         List<string> stNumList = new List<string>();
         List<PartInfo> partInfos = new List<PartInfo>();
         // 파트 인포는 정녕 필요한가?
@@ -16,8 +15,6 @@ namespace WinFormProject
         List<DateInfo> dateInfos = new List<DateInfo>();
 
         bool dateSelectMode = true; // true == add , false == update
-
-        //string tempStNum; // 원활한 편집을 위해...
 
         public Form1()
         {
@@ -58,10 +55,21 @@ namespace WinFormProject
         // 저장
         private void BtnOk_MemAdd_Click(object sender, EventArgs e)
         {
+            if (TxtName.Text.Trim() == "" || TxtPart.Text.Trim() == "" ||
+                !TxtStNum.MaskFull || !TxtBirth.MaskFull)
+            {
+                MessageBox.Show("정보를 모두 입력해주세요", "입력 오류", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }  
             switch (Add_or_Update) // Add면 정보 추가를, Update면 정보 수정을
             {
                 case true:
-                    AddMemberNode(TxtName.Text, TxtPart.Text, TxtStNum.Text, TxtBirth.Text, (int)TxtAbsence.Value);
+                    AddMemberNode(TxtName.Text.Trim(), 
+                                  TxtPart.Text.Trim(), 
+                                  TxtStNum.Text.Trim(), 
+                                  TxtBirth.Text.Trim(),
+                                  (int)TxtAbsence.Value);
                     BtnCancle_AddMem_Click(sender, e);
                     break;
                 case false:
@@ -81,7 +89,7 @@ namespace WinFormProject
                 return;
             }
             ViewMemberInfo();
-            stNumList.Remove(TxtStNum.Text);
+            stNumList.Remove(TxtStNum.Text.Trim());
 
             MemberEnableControl(true);
             EnableControl(groupBox3, false);
@@ -179,6 +187,7 @@ namespace WinFormProject
             //TxtAbsence.Enabled = FT;
             //groupBox2.Enabled = FT; // 이게 되네... 바보짓했다
             EnableControl(groupBox2, FT); // 윗줄은 라벨도 투명해져서 만든 함수
+            BtnUpdate_Date.Enabled = !FT;
 
             LsvMember.Enabled = !FT;
 
@@ -232,10 +241,10 @@ namespace WinFormProject
         // 멤버 정보 편집 함수
         private void UpdateMemberNode(TreeNode target) // target = 선택한 노드
         {
-            string tempName = TxtName.Text;
-            string tempPart = TxtPart.Text;
-            string tempUpdateStNum = TxtStNum.Text;
-            string tempBirth = TxtBirth.Text;
+            string tempName = TxtName.Text.Trim();
+            string tempPart = TxtPart.Text.Trim();
+            string tempUpdateStNum = TxtStNum.Text.Trim();
+            string tempBirth = TxtBirth.Text.Trim();
             int tempAbsence = (int)TxtAbsence.Value;
             RemoveMember(target);
             AddMemberNode(tempName, tempPart, tempUpdateStNum, tempBirth, tempAbsence);
@@ -274,7 +283,7 @@ namespace WinFormProject
                 }
                 if (box == groupBox2 && controlInGroupBox == BtnUpdate_Mem) // 편집버튼 살리기
                 {
-                    controlInGroupBox.Enabled = FT;
+                    controlInGroupBox.Enabled = !FT;
                 }
             }
         }
@@ -287,11 +296,18 @@ namespace WinFormProject
 
         private void BtnAdd_Date_Click(object sender, EventArgs e)
         {
-            string title = TxtDateTitle_In.Text;
-            string date = TxtDate_In.Text;
+            string title = TxtDateTitle_In.Text.Trim();
+            string date = TxtDate_In.Text.Trim();
             string type = CboType_In.Text;
-            string happening = TxtHappening_In.Text;
+            string happening = TxtHappening_In.Text.Trim();
             int lstLen = LsvDate.Nodes.Count;
+            if (title == "" || date == ""|| type == "")
+            {
+                MessageBox.Show("정보를 모두 입력해주세요", "입력 오류",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
             AddDate(title, date, type, happening);
         }
         private void AddDate(string title, string date, string type, string happening)
@@ -410,26 +426,21 @@ namespace WinFormProject
         }
         private void BtnOk_DateUpdate_Click(object sender, EventArgs e)
         {
-            // 일정 변경 로직 
-            /*
-            string tempName = TxtName.Text;
-            string tempPart = TxtPart.Text;
-            string tempUpdateStNum = TxtStNum.Text;
-            string tempBirth = TxtBirth.Text;
-            int tempAbsence = (int)TxtAbsence.Value;
-            RemoveMember(target);
-            AddMemberNode(tempName, tempPart, tempUpdateStNum, tempBirth, tempAbsence);
-            */
-            string tempTitle = TxtDateTitle_View.Text;
-            string tempDate = TxtDate_View.Text;
+            string tempTitle = TxtDateTitle_View.Text.Trim();
+            string tempDate = TxtDate_View.Text.Trim();
             string tempType = CboType_View.Text;
-            string tempHappening = TxtHappening_View.Text;
+            string tempHappening = TxtHappening_View.Text.Trim();
+            if (tempDate == "" || tempTitle == "" || tempType == "")
+            {
+                MessageBox.Show("정보를 모두 입력해주세요", "입력 오류",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
             RemoveDate(LsvDate.SelectedNode);
             AddDate(tempTitle, tempDate, tempType, tempHappening);
 
             DeleteDateInfo();
             DateEnableControl(true);
-
         }
 
         private void DateEnableControl(bool FT)
@@ -437,8 +448,8 @@ namespace WinFormProject
             dateSelectMode = FT;
 
             EnableControl(groupBox1, FT);
-            EnableControl(groupBox2, FT);
             EnableControl(groupBox3, FT);
+            BtnUpdate_Mem.Enabled = FT;
 
             BtnUpdate_Date.Visible = FT;
             BtnOk_DateUpdate.Visible = !FT;
