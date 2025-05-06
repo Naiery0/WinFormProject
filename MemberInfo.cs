@@ -15,7 +15,6 @@ namespace WinFormProject
             Absence = absence;
             StNum = stnum;
         }
-
         public string Part { get; set; }
         public string Birth { get; set; }
         public string Name {  get; set; }

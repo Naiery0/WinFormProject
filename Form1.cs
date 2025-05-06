@@ -462,6 +462,5 @@ namespace WinFormProject
 
             Calendar.Enabled = !FT;
         }
-
     }
 }
