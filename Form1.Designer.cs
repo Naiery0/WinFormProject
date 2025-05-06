@@ -592,7 +592,9 @@
             Font = new Font("맑은 고딕", 10F, FontStyle.Bold, GraphicsUnit.Point, 129);
             MainMenuStrip = menuStrip1;
             Margin = new Padding(4);
+            MaximizeBox = false;
             Name = "Form1";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "멤버 관리 프로그램";
             Load += Form1_Load;
             groupBox1.ResumeLayout(false);

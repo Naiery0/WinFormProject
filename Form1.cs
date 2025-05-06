@@ -50,6 +50,7 @@ namespace WinFormProject
             MemberEnableControl(false);
             EnableControl(groupBox3, true);
             BtnUpdate_Mem.Visible = true;
+            LsvMember.SelectedNode = null;
         }
 
         // ¿˙¿Â
@@ -417,6 +418,7 @@ namespace WinFormProject
                 return;
             }
             DateEnableControl(false);
+            Calendar.Enabled = true;
         }
 
         private void BtnCancle_DateUpdate_Click(object sender, EventArgs e)
@@ -459,8 +461,6 @@ namespace WinFormProject
             CboType_View.Enabled = !FT;
             TxtHappening_View.Enabled = !FT;
             TxtDate_View.Enabled = !FT;
-
-            Calendar.Enabled = !FT;
         }
     }
 }
