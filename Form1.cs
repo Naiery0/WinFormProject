@@ -1,5 +1,6 @@
 using System.Xml.Linq;
 using System;
+using System.Reflection;
 
 namespace WinFormProject
 {
@@ -14,6 +15,7 @@ namespace WinFormProject
         List<MemberInfo> memberInfos = new List<MemberInfo>();
         List<DateInfo> dateInfos = new List<DateInfo>();
 
+        bool dateSelectMode = true; // true == add , false == update
 
         //string tempStNum; // 원활한 편집을 위해...
 
@@ -25,6 +27,8 @@ namespace WinFormProject
         private void Form1_Load(object sender, EventArgs e)
         {
             MemberEnableControl(false);
+            BtnUpdate_Date.Enabled = true;
+            BtnUpdate_Mem.Enabled = true;
 
             Calendar.MaxSelectionCount = 1;
             CboType_In.SelectedIndex = 0;
@@ -126,7 +130,8 @@ namespace WinFormProject
                 partInfos[removePart].Member.Remove(memberInfos[index].StNum);
                 memberInfos.RemoveAt(index);
             }
-            LsvMember.Nodes.Remove(target); // 리스트에서 삭제
+            //LsvMember.Nodes.Remove(target); // 리스트에서 삭제
+            target.Remove();
             LsvMember.SelectedNode = null;
         }
 
@@ -261,17 +266,17 @@ namespace WinFormProject
                     controlInGroupBox.Enabled = true;
                     foreach (Control BoxInBox in controlInGroupBox.Controls.OfType<Control>())
                     {
-                        if (BoxInBox is not Label && BoxInBox != TxtDate_In && controlInGroupBox != groupBox5)
+                        if (BoxInBox is not Label && controlInGroupBox != groupBox5)
                         {
                             BoxInBox.Enabled = FT;
                         }
                     }
                 }
-                if (controlInGroupBox == BtnUpdate_Mem) // 편집버튼 살리기
+                if (box == groupBox2 && controlInGroupBox == BtnUpdate_Mem) // 편집버튼 살리기
                 {
-                    controlInGroupBox.Enabled = !FT;
+                    controlInGroupBox.Enabled = FT;
                 }
-            } // 그룹박스내 라벨 제외한 컨트롤만 제어
+            }
         }
 
         private void LsvMember_AfterSelect(object sender, TreeViewEventArgs e)
@@ -287,9 +292,13 @@ namespace WinFormProject
             string type = CboType_In.Text;
             string happening = TxtHappening_In.Text;
             int lstLen = LsvDate.Nodes.Count;
+            AddDate(title, date, type, happening);
+        }
+        private void AddDate(string title, string date, string type, string happening)
+        {
             dateInfos.Add(new DateInfo(title, date, type, happening));
 
-            for (int i = 0; i < lstLen; i++)
+            for (int i = 0; i < LsvDate.Nodes.Count; i++)
             {
                 if (type == LsvDate.Nodes[i].Text)
                 {
@@ -298,7 +307,6 @@ namespace WinFormProject
                     return;
                 }
             }
-
         }
         private void BtnCancle_AddDate_Click(object sender, EventArgs e)
         {
@@ -314,8 +322,15 @@ namespace WinFormProject
 
         private void Calendar_DateChanged(object sender, DateRangeEventArgs e)
         {
-            TxtDate_In.Text = e.End.ToShortDateString();
-            TxtDateTitle_In.Text = e.End.ToShortDateString() + " " + CboType_In.Text;
+            if (dateSelectMode == true)
+            {
+                TxtDate_In.Text = e.End.ToShortDateString();
+                TxtDateTitle_In.Text = e.End.ToShortDateString() + " " + CboType_In.Text;
+            }
+            else if (dateSelectMode == false)
+            {
+                TxtDate_View.Text = e.End.ToShortDateString();
+            }
         }
 
         private void CboType_In_SelectedIndexChanged(object sender, EventArgs e)
@@ -335,7 +350,107 @@ namespace WinFormProject
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
+            RemoveDate(LsvDate.SelectedNode);
+        }
+        private void RemoveDate(TreeNode target)
+        {
+            int index = dateInfos.FindIndex(i => i.Title.Contains(target.Text));
+            dateInfos.RemoveAt(index);
+            target.Remove();
+            LsvDate.SelectedNode = null;
+        }
+
+        private void LsvDate_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            ViewDateInfo();
+        }
+
+        private void ViewDateInfo()
+        {
+            TreeNode target = LsvDate.SelectedNode;
+            if (target.Parent != null)
+            {
+                TxtDateTitle_View.Text = target.Text;
+                int index = dateInfos.FindIndex(i => i.Title.Contains(target.Text));
+                TxtDate_View.Text = dateInfos[index].Date;
+                TxtHappening_View.Text = dateInfos[index].Memo;
+                //CboType_In.Text = dateInfos[index].Type;
+                CboType_View.Text = dateInfos[index].Type;
+            }
+            else
+            {
+                DeleteDateInfo();
+            }
+        }
+        private void DeleteDateInfo()
+        {
+            TxtDateTitle_View.Text = string.Empty;
+            TxtDate_View.Text = string.Empty;
+            TxtHappening_View.Text = string.Empty;
+            CboType_View.SelectedItem = null;
+
+            LsvDate.SelectedNode = null;
+        }
+
+        private void BtnUpdate_Date_Click(object sender, EventArgs e)
+        {
+            if (LsvDate.SelectedNode == null || LsvDate.SelectedNode.Parent == null)
+            {
+                MessageBox.Show("편집할 일정을 선택하세요.", "편집 오류",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            DateEnableControl(false);
+        }
+
+        private void BtnCancle_DateUpdate_Click(object sender, EventArgs e)
+        {
+            DeleteDateInfo();
+            DateEnableControl(true);
+        }
+        private void BtnOk_DateUpdate_Click(object sender, EventArgs e)
+        {
+            // 일정 변경 로직 
+            /*
+            string tempName = TxtName.Text;
+            string tempPart = TxtPart.Text;
+            string tempUpdateStNum = TxtStNum.Text;
+            string tempBirth = TxtBirth.Text;
+            int tempAbsence = (int)TxtAbsence.Value;
+            RemoveMember(target);
+            AddMemberNode(tempName, tempPart, tempUpdateStNum, tempBirth, tempAbsence);
+            */
+            string tempTitle = TxtDateTitle_View.Text;
+            string tempDate = TxtDate_View.Text;
+            string tempType = CboType_View.Text;
+            string tempHappening = TxtHappening_View.Text;
+            RemoveDate(LsvDate.SelectedNode);
+            AddDate(tempTitle, tempDate, tempType, tempHappening);
+
+            DeleteDateInfo();
+            DateEnableControl(true);
 
         }
+
+        private void DateEnableControl(bool FT)
+        {
+            dateSelectMode = FT;
+
+            EnableControl(groupBox1, FT);
+            EnableControl(groupBox2, FT);
+            EnableControl(groupBox3, FT);
+
+            BtnUpdate_Date.Visible = FT;
+            BtnOk_DateUpdate.Visible = !FT;
+            BtnCancle_DateUpdate.Visible = !FT;
+
+            TxtDateTitle_View.Enabled = !FT;
+            CboType_View.Enabled = !FT;
+            TxtHappening_View.Enabled = !FT;
+            TxtDate_View.Enabled = !FT;
+
+            Calendar.Enabled = !FT;
+        }
+
     }
 }

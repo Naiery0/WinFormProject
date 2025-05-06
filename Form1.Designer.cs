@@ -67,8 +67,8 @@
             CboType_View = new ComboBox();
             TxtDateTitle_View = new TextBox();
             TxtDate_View = new TextBox();
-            BtnOk_DateUpdate = new Button();
             BtnUpdate_Date = new Button();
+            BtnOk_DateUpdate = new Button();
             groupBox4 = new GroupBox();
             BtnCancle_AddDate = new Button();
             BtnAdd_Date = new Button();
@@ -366,6 +366,7 @@
             BtnCancle_DateUpdate.Text = "취소";
             BtnCancle_DateUpdate.UseVisualStyleBackColor = true;
             BtnCancle_DateUpdate.Visible = false;
+            BtnCancle_DateUpdate.Click += BtnCancle_DateUpdate_Click;
             // 
             // TxtHappening_View
             // 
@@ -440,6 +441,16 @@
             TxtDate_View.Size = new Size(179, 34);
             TxtDate_View.TabIndex = 8;
             // 
+            // BtnUpdate_Date
+            // 
+            BtnUpdate_Date.Location = new Point(239, -1);
+            BtnUpdate_Date.Name = "BtnUpdate_Date";
+            BtnUpdate_Date.Size = new Size(66, 34);
+            BtnUpdate_Date.TabIndex = 7;
+            BtnUpdate_Date.Text = "편집";
+            BtnUpdate_Date.UseVisualStyleBackColor = true;
+            BtnUpdate_Date.Click += BtnUpdate_Date_Click;
+            // 
             // BtnOk_DateUpdate
             // 
             BtnOk_DateUpdate.Location = new Point(239, -1);
@@ -449,15 +460,7 @@
             BtnOk_DateUpdate.Text = "저장";
             BtnOk_DateUpdate.UseVisualStyleBackColor = true;
             BtnOk_DateUpdate.Visible = false;
-            // 
-            // BtnUpdate_Date
-            // 
-            BtnUpdate_Date.Location = new Point(239, -1);
-            BtnUpdate_Date.Name = "BtnUpdate_Date";
-            BtnUpdate_Date.Size = new Size(66, 34);
-            BtnUpdate_Date.TabIndex = 7;
-            BtnUpdate_Date.Text = "편집";
-            BtnUpdate_Date.UseVisualStyleBackColor = true;
+            BtnOk_DateUpdate.Click += BtnOk_DateUpdate_Click;
             // 
             // groupBox4
             // 
@@ -582,6 +585,7 @@
             LsvDate.Nodes.AddRange(new TreeNode[] { treeNode1, treeNode2, treeNode3 });
             LsvDate.Size = new Size(298, 276);
             LsvDate.TabIndex = 6;
+            LsvDate.AfterSelect += LsvDate_AfterSelect;
             // 
             // Form1
             // 
